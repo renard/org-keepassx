@@ -7,7 +7,7 @@ Copyright © 2011 Sebastien Gross <seb•ɑƬ•chezwam•ɖɵʈ•org>
 Author: Sebastien Gross <seb•ɑƬ•chezwam•ɖɵʈ•org>
 Keywords: 
 Created: 2010-11-30
-Last changed: 2011-06-29 18:52:38
+Last changed: 2011-06-29 19:14:33
 Licence: WTFPL, grab your copy here: http://sam.zoy.org/wtfpl/
 
 
@@ -23,8 +23,9 @@ Howto use:
  - Open a keepassx database
  - Export to KeePassX XML (File / Export to ... / KeePassX XML File)
  - Convert to org file using:
-     
-     xsltproc -\-stringparam gpgkey KEYID KeepassX.xslt foo.xml > foo.org
+
+ sed 's,<br/>,\n,g' foo.xml | \
+ xsltproc -\-stringparam gpgkey KEYID KeepassX.xslt - > foo.org
 
 -->
 
@@ -207,19 +208,8 @@ Howto use:
       <xsl:value-of select="$newline"/>
       <xsl:text>#+BEGIN_COMMENT</xsl:text>
       <xsl:value-of select="$newline"/>
-
+      <xsl:value-of select="."/>
  
-      <xsl:variable name='full-comment'>
-	<xsl:value-of select="." disable-output-escaping="yes" />
-      </xsl:variable>
-     
-
-      <xsl:call-template name="string-replace-all">
-	<xsl:with-param name="text" select="$full-comment" />
-	<xsl:with-param name="replace" select="'&lt;br/&gt;'" />
-	<xsl:with-param name="by" select="$newline" />
-      </xsl:call-template>
-
       <xsl:value-of select="$newline"/>
       <xsl:text>#+END_COMMENT</xsl:text>
       <xsl:value-of select="$newline"/>
